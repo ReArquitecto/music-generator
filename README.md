@@ -20,7 +20,7 @@ Microsoft VS Code automatically starts the virtual environment when you open the
 - Press Ctrl+Shift+P and type “Python: Select Interpreter.”
 - Choose the interpreter from the .venv directory to ensure VS Code uses your virtual environment for the project.
 
-If you're running a different IED, you will probably want to look up how to do this for your IED. If you don't enable this in your IED or are unable to do so, you'll have to start the environment from the terminal as needed.
+If you're running a different IDE, you will probably want to look up how to do this for your IDE. If you don't enable this in your IDE or are unable to do so, you'll have to start the environment from the terminal as needed.
 
 ## Install Project Dependencies
 In the terminal:

@@ -21,4 +21,4 @@ score.append(part)
 filename = get_filename(ext='xml', user_input=False, prefix='music21')
 
 # Save the score to MusicXML
-score.write('musicxml', fp=f'output/{filename}.xml')
+score.write('musicxml', fp=f'output/{filename}')

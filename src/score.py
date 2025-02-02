@@ -3,18 +3,33 @@ import music21
 from music21.duration import Duration
 from enum import Enum
 
+class Clef(Enum):
+    '''Clef types'''
+    Treble = 1
+    Bass = 2
+    Piano = None    # Both treble and bass
+
+# A Note is a musical note or rest, including adornments like accidentals, articulations, etc.
 # Note names consist of a capital letter A-G followed by an optional accidental and octave number,
 # where C4 is middle C.  We use this rather than pitch so that the notation is as expected.
 # The name of a rest is "rest".
 
+# A note can be initialized from a name (str) or a MIDI note number (int).
+
 class Note:
     '''Note or rest'''
-    def __init__(self, name):
+    def __init__(self, name: str):
         self.name = name
         self.note = music21.note.Note(name) if name != 'rest' else music21.note.Rest()
+        if not isinstance(name, str):
+            self.name = self.note.name + str(self.note.octave)
 
     def __str__(self):
         return self.name
+    
+    def midi(self):
+        '''Return the MIDI number of the note'''
+        return self.note.pitch.midi
     
 class Tick:
     '''Notes and rests that happen at the same time for the same duration,
@@ -31,7 +46,7 @@ class Tick:
 
 class Sequence:
     '''A sequence of Ticks, all in the same clef'''
-    def __init__(self, clef=None, ticks: list[Tick]=[]):
+    def __init__(self, clef: Clef=None, ticks: list[Tick]=[]):
         self.clef = clef
         self.ticks = ticks
     
@@ -58,34 +73,56 @@ class Score:
     def score(self):
         '''Render the system to a score'''
         score = music21.stream.Score()
-
         for sequence in self.sequences:
             part = music21.stream.Part()
+            part.clef = music21.clef.BassClef() if sequence.clef == Clef.Bass else None
+            part.clef = music21.clef.TrebleClef() if sequence.clef == Clef.Treble else None
             for tick in sequence.ticks:
                 chord = music21.chord.Chord([note.note for note in tick.notes])
                 part.append(chord)
             score.append(part)
         return score
+    
+    def write(self, filename: str):
+        '''Write the score to a file'''
+        self.score().write('musicxml', fp=filename) 
+        print("Wrote '" + filename + "'")
 
 if __name__ == '__main__':
     n1 = Note('C4')
     n2 = Note('Eb4')
     n3 = Note('G4')
-    treble_tick = Tick(Duration('quarter'), {n1, n2})
+    treble_tick = Tick(Duration('quarter'), {n2})
     treble_tick.add({n3})
     print("Treble tick:", treble_tick)
 
     n4 = Note('C3')
-    bass_tick = Tick(Duration('quarter'), {n4})
+    bass_tick = Tick(Duration('quarter'), {n1, n4})
     print("Bass tick:", bass_tick)
     
     treble = Sequence(ticks=[treble_tick])
     print("Treble sequence:", treble)
     treble.add([Tick(Duration('quarter'), {Note('C4')})])
 
-    bass = Sequence(music21.clef.BassClef, {bass_tick})
+    bass = Sequence(Clef.Bass, {bass_tick})
     print("Bass sequence:", bass)
 
     score = Score([treble, bass])
     print(score)
-    score.score().write('musicxml', fp='output/score.xml')
+    score.write('output/score.xml')
+
+    print("n1 MIDI = ", n1.midi())
+    print("Note for MIDI 60: ", str(Note(60)))
+
+    # Show the bass clef with a note above it
+    bass_tick = Tick(Duration('quarter'), {Note('D4')})
+    bass = Sequence(Clef.Bass, {bass_tick})
+    score = Score([bass])
+    score.write('output/bass-clef.xml')
+
+    # Show the treble clef with a note below it
+    treble_tick = Tick(Duration('quarter'), {Note('A3')})
+    treble = Sequence(Clef.Treble, {treble_tick})
+    score = Score([treble])
+    score.write('output/treble-clef.xml')
+

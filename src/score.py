@@ -9,6 +9,27 @@ class Clef(Enum):
     Bass = 2
     Piano = None    # Both treble and bass
 
+class Mode(Enum):
+    '''Mode types'''
+    major = 1
+    minor = 2
+    mixolydian = 3
+    dorian = 4
+    phrygian = 5
+    lydian = 6
+    locrian = 7
+    ionian = 8
+    aeolian = 9
+
+class Key:
+    '''Key and mode'''
+    def __init__(self, tonic: str, mode: Mode):
+        self.music21_key = music21.key.Key(tonic, mode.name)
+    
+    def __str__(self):
+        return "Key " + str(self.key)
+    
+
 # A Note is a musical note or rest, including adornments like accidentals, articulations, etc.
 # Note names consist of a capital letter A-G followed by an optional accidental and octave number,
 # where C4 is middle C.  We use this rather than pitch so that the notation is as expected.
@@ -60,7 +81,7 @@ class Sequence:
 
 class Score:
     '''A set of sequences, typically treble and/or bass clefs'''
-    def __init__(self, sequences: set[Sequence]={}, key: str=None):
+    def __init__(self, sequences: set[Sequence]={}, key: Key=None):
         self.sequences = sequences
         self.key = key
     
@@ -77,7 +98,7 @@ class Score:
         for sequence in self.sequences:
             part = music21.stream.Part()
             if self.key is not None:
-                part.append(music21.key.Key(self.key))
+                part.append(self.key.music21_key)
             part.clef = music21.clef.BassClef() if sequence.clef == Clef.Bass else None
             part.clef = music21.clef.TrebleClef() if sequence.clef == Clef.Treble else None
             for tick in sequence.ticks:
@@ -110,7 +131,7 @@ if __name__ == '__main__':
     bass = Sequence(Clef.Bass, {bass_tick})
     print("Bass sequence:", bass)
 
-    score = Score([treble, bass], key='B')
+    score = Score([treble, bass], key=Key('C', Mode.mixolydian))
     print(score)
     score.write('output/score.xml')
 

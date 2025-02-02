@@ -150,3 +150,10 @@ if __name__ == '__main__':
     score = Score([treble])
     score.write('output/treble-clef.xml')
 
+    # chromatic sequence
+    seq = Sequence()
+    for i in range(60, 72):
+        t = Tick(Duration('quarter'), {Note(i)})
+        seq.add([t])
+    score = Score([seq])
+    score.write('output/chromatic.xml')

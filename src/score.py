@@ -99,8 +99,11 @@ class Score:
             part = music21.stream.Part()
             if self.key is not None:
                 part.append(self.key.music21_key)
-            part.clef = music21.clef.BassClef() if sequence.clef == Clef.Bass else None
-            part.clef = music21.clef.TrebleClef() if sequence.clef == Clef.Treble else None
+            match sequence.clef:
+                case Clef.Bass:
+                    part.append(music21.clef.BassClef())
+                case Clef.Treble:
+                    part.append(music21.clef.TrebleClef())
             for tick in sequence.ticks:
                 chord = music21.chord.Chord([note.note for note in tick.notes])
                 part.append(chord)
@@ -142,13 +145,13 @@ if __name__ == '__main__':
     bass_tick = Tick(Duration('quarter'), {Note('D4')})
     bass = Sequence(Clef.Bass, {bass_tick})
     score = Score([bass])
-    score.write('output/bass-clef.xml')
+    score.write('output/score-bass-clef.xml')
 
     # Show the treble clef with a note below it
     treble_tick = Tick(Duration('quarter'), {Note('A3')})
     treble = Sequence(Clef.Treble, {treble_tick})
     score = Score([treble])
-    score.write('output/treble-clef.xml')
+    score.write('output/score-treble-clef.xml')
 
     # chromatic sequence
     seq = Sequence()
@@ -156,4 +159,4 @@ if __name__ == '__main__':
         t = Tick(Duration('quarter'), {Note(i)})
         seq.add([t])
     score = Score([seq])
-    score.write('output/chromatic.xml')
+    score.write('output/score-chromatic.xml')

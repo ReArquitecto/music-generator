@@ -60,8 +60,9 @@ class Sequence:
 
 class Score:
     '''A set of sequences, typically treble and/or bass clefs'''
-    def __init__(self, sequences: set[Sequence]={}):
+    def __init__(self, sequences: set[Sequence]={}, key: str=None):
         self.sequences = sequences
+        self.key = key
     
     def __str__(self):
         return "System " + " ".join([str(s) for s in self.sequences])
@@ -75,6 +76,8 @@ class Score:
         score = music21.stream.Score()
         for sequence in self.sequences:
             part = music21.stream.Part()
+            if self.key is not None:
+                part.append(music21.key.Key(self.key))
             part.clef = music21.clef.BassClef() if sequence.clef == Clef.Bass else None
             part.clef = music21.clef.TrebleClef() if sequence.clef == Clef.Treble else None
             for tick in sequence.ticks:
@@ -107,7 +110,7 @@ if __name__ == '__main__':
     bass = Sequence(Clef.Bass, {bass_tick})
     print("Bass sequence:", bass)
 
-    score = Score([treble, bass])
+    score = Score([treble, bass], key='B')
     print(score)
     score.write('output/score.xml')
 

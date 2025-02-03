@@ -1,0 +1,20 @@
+
+<!DOCTYPE html>
+<div id="osmdContainer" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+<script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@0.7.6/build/opensheetmusicdisplay.min.js"></script>
+<script>
+  var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+  osmd.setOptions({
+    backend: "svg",
+    drawTitle: false,
+    drawingParameters: "compacttight" // don't display title, composer etc., smaller margins
+  });
+  osmd
+    .load("http://localhost:8000/output/jtest.xml")
+    .then(
+      function() {
+        osmd.render();
+      }
+    );
+</script>
+</div>

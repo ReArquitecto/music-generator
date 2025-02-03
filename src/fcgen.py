@@ -30,3 +30,5 @@ if __name__ == "__main__":
     fc_note("output/fcgen-note.xml", NoteRange(Note("C4"), Note("G4")))
     # Note: in the following, the notes are above bass clef to show that bass clef is forced
     fc_note("output/fcgen-note-bass.xml", NoteRange(Note("C#4"), Note("G4")), Clef.Bass)
+
+

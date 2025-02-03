@@ -2,6 +2,10 @@
 import music21
 from music21.duration import Duration
 from enum import Enum
+import tempfile
+import webbrowser
+from pathlib import Path
+import sys
 
 class Clef(Enum):
     '''Clef types'''
@@ -114,6 +118,36 @@ class Score:
         '''Write the score to a file'''
         self.score().write('musicxml', fp=filename) 
         print("Wrote '" + filename + "'")
+    
+    def display(self):
+        '''Display the score using OpenSheetMusicDisplay'''
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.xml') as tmp:
+            self.write(tmp.name)
+            tmp_path = Path(tmp.name).as_uri()
+        
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Score Display</title>
+            <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@0.7.6/build/opensheetmusicdisplay.min.js"></script>
+        </head>
+        <body>
+            <div id="osmd-container"></div>
+            <script>
+                const osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmd-container");
+                fetch("{tmp_path}")
+                    .then(response => response.text())
+                    .then(data => osmd.load(data))
+                    .then(() => osmd.render());
+            </script>
+        </body>
+        </html>
+        """
+        
+        with tempfile.NamedTemporaryFile(delete=False, suffix='.html') as tmp_html:
+            tmp_html.write(html_content.encode('utf-8'))
+            webbrowser.open(tmp_html.name)
 
 if __name__ == '__main__':
     n1 = Note('C4')
@@ -137,6 +171,9 @@ if __name__ == '__main__':
     score = Score([treble, bass], key=Key('C', Mode.mixolydian))
     print(score)
     score.write('output/score.xml')
+    score.display()
+
+    sys.exit(0)
 
     print("n1 MIDI = ", n1.midi())
     print("Note for MIDI 60: ", str(Note(60)))
@@ -146,12 +183,14 @@ if __name__ == '__main__':
     bass = Sequence(Clef.Bass, {bass_tick})
     score = Score([bass])
     score.write('output/score-bass-clef.xml')
+    score.display()
 
     # Show the treble clef with a note below it
     treble_tick = Tick(Duration('quarter'), {Note('A3')})
     treble = Sequence(Clef.Treble, {treble_tick})
     score = Score([treble])
     score.write('output/score-treble-clef.xml')
+    score.display()
 
     # chromatic sequence
     seq = Sequence()
@@ -160,3 +199,4 @@ if __name__ == '__main__':
         seq.add([t])
     score = Score([seq])
     score.write('output/score-chromatic.xml')
+    score.display()

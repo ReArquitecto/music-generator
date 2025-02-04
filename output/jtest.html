@@ -1,20 +1,28 @@
 
-<!DOCTYPE html>
-<div id="osmdContainer" style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
-<script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@0.7.6/build/opensheetmusicdisplay.min.js"></script>
-<script>
-  var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
-  osmd.setOptions({
-    backend: "svg",
-    drawTitle: false,
-    drawingParameters: "compacttight" // don't display title, composer etc., smaller margins
-  });
-  osmd
-    .load("http://localhost:8000/output/jtest.xml")
-    .then(
-      function() {
-        osmd.render();
-      }
-    );
-</script>
-</div>
+        <!DOCTYPE html>
+        <HEAD>
+        <TITLE>FlashCard test</TITLE>
+        </HEAD>
+        <body bgcolor=#000000">
+        <div id="osmdContainer" style="width:25%; margin:0 auto;"> <!-- FIXME: works but not general -->
+        <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
+        <script>
+        var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+        osmd.setOptions({
+            backend: "svg",
+            drawTitle: false, // default title is "Muxi21 Fragment" -- maybe later we put what we want
+            darkMode: true, // TODO make it a parameter
+            drawingParameters: "compacttight" // don't display composer etc., smaller margins
+        });
+        osmd
+            .load("http://localhost:8000/output/jtest.xml")
+            .then(
+            function() {
+                osmd.render();
+            }
+            );
+        </script>
+        </div>
+        </body>
+
+    

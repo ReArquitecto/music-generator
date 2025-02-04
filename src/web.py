@@ -1,11 +1,14 @@
+def display_musicxml(title, html_filename, score_filename):
+    '''Given musicXml file, write HTML file to display it'''
 
+    html = '''
         <!DOCTYPE html>
         <HEAD>
-        <TITLE>jtest</TITLE>
+        <TITLE>%s</TITLE>
         </HEAD>
         <body bgcolor=#000000" style="color:white;">
-        <center><h2>jtest</h2></center><br>
-        <div id="osmdContainer" style="width:25%; margin:0 auto;"> <!-- FIXME: works but not well -->
+        <center><h2>%s</h2></center><br>
+        <div id="osmdContainer" style="width:25%%; margin:0 auto;"> <!-- FIXME: works but not well -->
         <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
         <script>
         var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
@@ -16,7 +19,7 @@
             drawingParameters: "compacttight" // don't display composer etc., smaller margins
         });
         osmd
-            .load("http://localhost:8000/output/jtest.xml")
+            .load("http://localhost:8000/%s")
             .then(
             function() {
                 osmd.render();
@@ -26,4 +29,12 @@
         </div>
         </body>
 
-    
+    '''
+    html = html % (title, title, score_filename)
+    with open(html_filename, 'w') as f:
+        f.write(html)
+
+    # open it in the browser
+    # NOTE: before running, open a webserver using `python -m http.server` in this directory
+    import webbrowser
+    webbrowser.open(f'http://localhost:8000/{html_filename}')

@@ -15,16 +15,7 @@ score.write('musicxml', 'output/jtest.xml')
 
 # Display the score using OpenSheetMusicDisplay
 from IPython.display import display, HTML
-import webbrowser
-import tempfile
 from pathlib import Path
 
 # write the html file
-web.display_musicxml('output/jtest.html', 'output/jtest.xml')
-
-# open it in the browser
-# NOTE: before running, open a webserver using `python -m http.server` in this directory
-webbrowser.open('http://localhost:8000/output/jtest.html')
-
-
-
+web.display_musicxml('jtest', 'output/jtest.html', 'output/jtest.xml')

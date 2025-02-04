@@ -26,9 +26,16 @@ def fc_note(fname:str, range:NoteRange, clef:Clef=None):
     score.write(fname)
 
 if __name__ == "__main__":
+    import web
+
     print("Random note: " + str(random_note(NoteRange(Note("C4"), Note("G4")))))
+
+    # Note that this is not the note printed above
     fc_note("output/fcgen-note.xml", NoteRange(Note("C4"), Note("G4")))
+    web.display_musicxml("fcgen-note", "output/fcgen-note.html", "output/fcgen-note.xml")
+
     # Note: in the following, the notes are above bass clef to show that bass clef is forced
     fc_note("output/fcgen-note-bass.xml", NoteRange(Note("C#4"), Note("G4")), Clef.Bass)
+    web.display_musicxml("fcgen-note-bass", "output/fcgen-note-bass.html", "output/fcgen-note-bass.xml")
 
 

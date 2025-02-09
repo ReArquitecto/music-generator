@@ -1,5 +1,8 @@
-def display_musicxml(title, html_filename, score_filename):
+def display_musicxml(title, html_filename, score_filename, description=""):
     '''Given musicXml file, write HTML file to display it'''
+
+    if description is not None:
+        desc = f'<h3>{description}</h3>'
 
     html = '''
         <!DOCTYPE html>
@@ -7,7 +10,7 @@ def display_musicxml(title, html_filename, score_filename):
         <TITLE>%s</TITLE>
         </HEAD>
         <body bgcolor=#000000" style="color:white;">
-        <center><h2>%s</h2></center><br>
+        <center><h2>%s</h2>%s</center><br>
         <div id="osmdContainer" style="width:25%%; margin:0 auto;"> <!-- FIXME: works but not well -->
         <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
         <script>
@@ -30,7 +33,7 @@ def display_musicxml(title, html_filename, score_filename):
         </body>
 
     '''
-    html = html % (title, title, score_filename)
+    html = html % (title, title, desc, score_filename)
     with open(html_filename, 'w') as f:
         f.write(html)
 

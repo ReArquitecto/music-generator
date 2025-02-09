@@ -22,16 +22,37 @@ class Mode(Enum):
     phrygian = 5
     lydian = 6
     locrian = 7
-    ionian = 8
-    aeolian = 9
+    ionian = 8 # same as major
+    aeolian = 9 # same as minor
 
-class Key:
+# All the keys, including enharmonic equivalents
+class Key(Enum):
+    C = "C"
+    Csharp = "C#"
+    Dflat = "Db"
+    D = "D"
+    Dsharp = "D#"
+    Eflat = "Eb"
+    E = "E"
+    F = "F"
+    Fsharp = "F#"
+    Gflat = "Gb"
+    G = "G"
+    Gsharp = "G#"
+    Aflat = "Ab"
+    A = "A"
+    Asharp = "A#"
+    Bflat = "Bb"
+    B = "B"
+
+class KeyAndMode:
     '''Key and mode'''
-    def __init__(self, tonic: str, mode: Mode):
-        self.music21_key = music21.key.Key(tonic, mode.name)
+    def __init__(self, tonic: Key, mode: Mode):
+        self.music21_key = music21.key.Key(tonic.name, mode.name)
+        self.name = tonic.value + " " + mode.name
     
     def __str__(self):
-        return "Key " + str(self.key)
+        return self.name
     
 
 # A Note is a musical note or rest, including adornments like accidentals, articulations, etc.
@@ -43,11 +64,17 @@ class Key:
 
 class Note:
     '''Note or rest'''
-    def __init__(self, name: str):
+    def __init__(self, name: str, keyAndMode: KeyAndMode=None):
         self.name = name
-        self.note = music21.note.Note(name) if name != 'rest' else music21.note.Rest()
-        if not isinstance(name, str):
-            self.name = self.note.name + str(self.note.octave)
+        if name != "rest":
+            self.note = music21.note.Note(name)
+            if not isinstance(name, str):
+                self.name = self.note.name + str(self.note.octave)
+            if keyAndMode is not None:
+                # Fix the note to match the key signature
+                ks = music21.key.KeySignature(keyAndMode.music21_key.sharps)
+                self.note.pitch.accidental = ks.accidentalByStep(self.note.pitch.step)
+                self.name = self.note.name + str(self.note.octave)
 
     def __str__(self):
         return self.name
@@ -57,8 +84,7 @@ class Note:
         return self.note.pitch.midi
     
 class Tick:
-    '''Notes and rests that happen at the same time for the same duration,
-    an unordered set of Notes'''
+    '''set of Notes and rests that happen at the same time for the same duration'''
     def __init__(self, duration: Duration, notes: set[Note]={}):
         self.duration = duration
         self.notes = notes
@@ -85,9 +111,9 @@ class Sequence:
 
 class Score:
     '''A set of sequences, typically treble and/or bass clefs'''
-    def __init__(self, sequences: set[Sequence]={}, key: Key=None):
+    def __init__(self, sequences: set[Sequence]={}, keyAndMode: KeyAndMode=None):
         self.sequences = sequences
-        self.key = key
+        self.keyAndMode = keyAndMode
     
     def __str__(self):
         return "System " + " ".join([str(s) for s in self.sequences])
@@ -101,8 +127,10 @@ class Score:
         score = music21.stream.Score()
         for sequence in self.sequences:
             part = music21.stream.Part()
-            if self.key is not None:
-                part.append(self.key.music21_key)
+            # FIXME: key signature doesn't appear
+            if self.keyAndMode is not None:
+                key_sig = music21.key.KeySignature(self.keyAndMode.music21_key.sharps)
+                part.append(key_sig)
             match sequence.clef:
                 case Clef.Bass:
                     part.append(music21.clef.BassClef())
@@ -141,11 +169,13 @@ if __name__ == '__main__':
         bass = Sequence(Clef.Bass, {bass_tick})
         print("Bass sequence:", bass)
 
-        score = Score([treble, bass], key=Key('C', Mode.mixolydian))
+    if True:
+        score = Score([treble, bass], keyAndMode=KeyAndMode(Key.C, Mode.mixolydian))
         print(score)
         score.write('output/score.xml')
         web.display_musicxml('score', 'output/score.html', 'output/score.xml')
 
+    if False:
         print("n1 MIDI = ", n1.midi())
         print("Note for MIDI 60: ", str(Note(60)))
 
@@ -163,11 +193,11 @@ if __name__ == '__main__':
         score.write('output/score-treble-clef.xml')
         web.display_musicxml('score-treble-clef', 'output/score-treble-clef.html', 'output/score-treble-clef.xml')
 
-    # chromatic sequence
-    seq = Sequence()
-    for i in range(60, 72):
-        t = Tick(Duration('quarter'), {Note(i)})
-        seq.add([t])
-    score = Score([seq])
-    score.write('output/score-chromatic.xml')
-    web.display_musicxml('score-chromatic', 'output/score-chromatic.html', 'output/score-chromatic.xml')
+        # chromatic sequence
+        seq = Sequence()
+        for i in range(60, 72):
+            t = Tick(Duration('quarter'), {Note(i)})
+            seq.add([t])
+        score = Score([seq])
+        score.write('output/score-chromatic.xml')
+        web.display_musicxml('score-chromatic', 'output/score-chromatic.html', 'output/score-chromatic.xml')

@@ -1,5 +1,13 @@
 # Introduction
-This repository contains projects for automating processes in the PM Back Office
+This repository provides methods to generate musical flash cards in MusicXML format, suitable for use in a program like Piano Marvel.
+
+Given a set of input choices, such as
+- number of notes
+- chord vs sequential
+- key signature
+- note range or clef(s)
+
+generate the MusicXML for that note, chord, or sequence of notes.
 
 # Setup
 It's best to run this project in a virtual environment. So please follow these steps:
@@ -37,5 +45,24 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 
-# Features
-TODO: Finish this readme file
+# TEMPORARY development notes
+
+Pytest UT is planned but not yet added.  To test any given file, run it and it's main will exercise the primary features provided by the file.
+
+For convenience, the generated MusicXML files are displayed in your browswer, but first you must start a server in the repo directory:
+```
+python src/server.py &
+```
+(The above assumes you're using bash.)
+
+To generate a single-note flashcard, run fc_gen.py.
+
+# Plans/Hopes
+
+[ ] refactor for better use by PM (e.g. fc_gen shouldn't display the output)
+[ ] multiple notes
+[ ] chord vs. sequence
+[ ] modes?
+[ ] control panel
+[ ] MIDI input, to check and proceed to next flashcard
+[ ] hosted website

@@ -1,43 +1,20 @@
 def display_musicxml(title, html_filename, score_filename, description=""):
     '''Given musicXml file, write HTML file to display it'''
+    
+    with open("src/template.html", "r") as template_file:
+        template = template_file.read()
+    
+    desc_html = f"<h2>{description}</h2>" if description else ""
 
-    if description is not None:
-        desc = f'<h3>{description}</h3>'
+    # Replace placeholders in the template
+    html_content = template.replace("{{ title }}", title)\
+                           .replace("{{ description }}", desc_html)\
+                           .replace("{{ score_filename }}", score_filename)
 
-    html = '''
-        <!DOCTYPE html>
-        <HEAD>
-        <TITLE>%s</TITLE>
-        </HEAD>
-        <body bgcolor=#000000" style="color:white;">
-        <center><h2>%s</h2>%s</center><br>
-        <div id="osmdContainer" style="width:25%%; margin:0 auto;"> <!-- FIXME: works but not well -->
-        <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
-        <script>
-        var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
-        osmd.setOptions({
-            backend: "svg",
-            drawTitle: false, // default title is "Muxi21 Fragment" -- maybe later we put what we want
-            darkMode: true, // TODO make it a parameter
-            drawingParameters: "compacttight" // don't display composer etc., smaller margins
-        });
-        osmd
-            .load("http://localhost:8000/%s")
-            .then(
-            function() {
-                osmd.render();
-            }
-            );
-        </script>
-        </div>
-        </body>
+    # Write to the new HTML file
+    with open(html_filename, "w") as f:
+        f.write(html_content)
 
-    '''
-    html = html % (title, title, desc, score_filename)
-    with open(html_filename, 'w') as f:
-        f.write(html)
-
-    # open it in the browser
-    # NOTE: before running, open a webserver using `python -m http.server` in this directory
+    # Open in the browser
     import webbrowser
     webbrowser.open(f'http://localhost:8000/{html_filename}')

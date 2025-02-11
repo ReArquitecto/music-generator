@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>jtest - Music Generator</title>
+    <title>{{ title }} - Music Generator</title>
     <link rel="stylesheet" type="text/css" href="/src/styles.css">
 </head>
 <body>
-    <h1>jtest</h1>
-    
+    <h1>{{ title }}</h1>
+    {{ description }}
     <div id="osmdContainer"></div>
 
     <!-- Load OSMD and Initialize -->
@@ -20,7 +20,7 @@
                 darkMode: true,
                 drawingParameters: "compacttight"
             });
-            osmd.load("http://localhost:8000/output/jtest.xml").then(function() {
+            osmd.load("http://localhost:8000/{{ score_filename }}").then(function() {
                 osmd.render();
             });
         });

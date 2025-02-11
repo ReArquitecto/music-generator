@@ -1,0 +1,22 @@
+body {
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: black;
+    color: white;
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+@media (max-width: 1200px) {
+    body {
+        margin: 16px;
+    }
+}

@@ -59,10 +59,10 @@ To generate a single-note flashcard, run fc_gen.py.
 
 # Plans/Hopes
 
-[ ] refactor for better use by PM (e.g. fc_gen shouldn't display the output)
-[ ] multiple notes
-[ ] chord vs. sequence
-[ ] modes?
-[ ] control panel
-[ ] MIDI input, to check and proceed to next flashcard
-[ ] hosted website
+- [ ] refactor for better use by PM (e.g. fc_gen shouldn't display the output)
+- [ ] multiple notes
+- [ ] chord vs. sequence
+- [ ] modes?
+- [ ] control panel
+- [ ] MIDI input, to check and proceed to next flashcard
+- [ ] hosted website

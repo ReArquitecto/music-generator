@@ -25,11 +25,11 @@ def fc_note(fname:str, range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMode=No
     score = Score({sequence}, keyAndMode=keyAndMode)
     score.write(fname)
 
-def select_key(key:set(Key)):
+def select_key(key:set[Key]):
     '''Select a random key from the given set'''
     return random.choice(list(key))
 
-def select_mode(mode:set(Mode)):
+def select_mode(mode:set[Mode]):
     '''Select a random mode from the given set'''
     return random.choice(list(mode))
 

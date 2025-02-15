@@ -17,4 +17,6 @@ def display_musicxml(title, html_filename, score_filename, description=""):
 
     # Open in the browser
     import webbrowser
+    import time
     webbrowser.open(f'http://localhost:8000/{html_filename}')
+    time.sleep(1)

@@ -1,4 +1,4 @@
-def display_musicxml(title, html_filename, score_filename, description=""):
+def gen_musichtml(title, html_filename, score_filename, description=""):
     '''Given musicXml file, write HTML file to display it'''
     
     with open("src/template.html", "r") as template_file:
@@ -18,5 +18,7 @@ def display_musicxml(title, html_filename, score_filename, description=""):
     # Open in the browser
     import webbrowser
     import time
+
+def display_musicxml(title, html_filename, score_filename, description=""):
+    gen_musichtml(title, html_filename, score_filename, description)
     webbrowser.open(f'http://localhost:8000/{html_filename}')
-    time.sleep(1)

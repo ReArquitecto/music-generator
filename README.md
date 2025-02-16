@@ -50,16 +50,26 @@ pip freeze > requirements.txt
 Pytest UT is planned but not yet added.  To test any given file, run it and it's main will exercise the primary features provided by the file.
 
 For convenience, the generated MusicXML files are displayed in your browswer, but first you must start a server in the repo directory:
-```
+```bash
 python src/server.py &
 ```
-(The above assumes you're using bash.)
 
-To generate a single-note flashcard, run fc_gen.py.
+To generate a complet set of flashcards, run fc_gen.py.  View them in your browser at
+[http://localost:8000/output/html](http://localost:8000/output/html)
 
 # Plans/Hopes
 
 - [ ] refactor for better use by PM (e.g. fc_gen shouldn't display the output)
+- [x] generate flashcards in xml (and html just for local viewing), in all key signatures:
+  - [x] single notes
+  - [x] intervals (m3, 3, 4, b5, 5, 6, and octave)
+  - [ ] non-inverted triads
+    - [ ] maj
+    - [ ] min
+    - [ ] maj7
+    - [ ] min7
+    - [ ] 7
+
 - [ ] multiple notes
 - [ ] chord vs. sequence
 - [ ] modes?

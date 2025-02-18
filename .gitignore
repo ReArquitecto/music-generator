@@ -9,3 +9,4 @@ __pycache__/
 # Directories to ignore
 SeleniumProfile/
 files/
+output/

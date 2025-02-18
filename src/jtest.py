@@ -7,8 +7,6 @@ part = stream.Part()
 # part.append(key.Key('C', 'mixolydian'))
 k = key.Key('Bb', 'major')
 ks = key.KeySignature(k.sharps)
-print(k)
-print(k.sharps)
 part.append(ks)
 part.append(note.Note('B', quarterLength=1))
 part.append(note.Note('Bb', quarterLength=1))
@@ -19,9 +17,9 @@ part.append(note.Note('Bb', quarterLength=1))
 for n in part.notes:
     n.pitch.accidental = n.getContextByClass(key.KeySignature).accidentalByStep(n.step)
 
-score.append(part)
-score.write('musicxml', 'output/jtest.xml')
-web.display_musicxml('jtest', 'output/jtest.html', 'output/jtest.xml')
+# core.append(part)
+# score.write('musicxml', 'output/jtest.xml')
+# web.display_musicxml('jtest', 'output/jtest.html', 'output/jtest.xml')
 
 if False:
 
@@ -35,6 +33,38 @@ if False:
 
     for n in s1.notes:
         n.pitch.accidental = n.getContextByClass(key.KeySignature).accidentalByStep(n.step)
+
+    s1.write('musicxml', 'output/jtest.xml')
+    web.display_musicxml('jtest', 'output/jtest.html', 'output/jtest.xml')
+
+if False:
+    def generate_chord(root_note, key_signature, intervals):
+        k = key.Key(key_signature)
+        ks = key.KeySignature(k.sharps)
+        chord_notes = [note.Note(root_note)]
+        
+        for interval in intervals:
+            n = note.Note()
+            n.transpose(interval, inPlace=True)
+            chord_notes.append(n)
+        
+        for n in chord_notes:
+            n.pitch.accidental = ks.accidentalByStep(n.step)
+        
+        return chord.Chord(chord_notes)
+
+    # Example usage:
+    root = 'C'
+    key_sig = 'C major'
+    intervals = ['M3', 'P5']
+    ch = generate_chord(root, key_sig, intervals)
+    print(ch)
+
+if True:
+    s1 = stream.Stream()
+    s1.append(note.Note('C4', type='half'))
+    s1.append(note.Note('C3', type='half'))
+    s1.append(note.Note('C2', type='half'))
 
     s1.write('musicxml', 'output/jtest.xml')
     web.display_musicxml('jtest', 'output/jtest.html', 'output/jtest.xml')

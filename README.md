@@ -49,10 +49,11 @@ pip freeze > requirements.txt
 
 Pytest UT is planned but not yet added.  To test any given file, run it and it's main will exercise the primary features provided by the file.
 
-For convenience, the generated MusicXML files are displayed in your browswer, but first you must start a server in the repo directory:
+For convenience, some generated MusicXML files are displayed in your browswer, but first you must start a server in the repo directory:
 ```bash
 python src/server.py &
 ```
+For example, run `score.py`
 
 To generate a complet set of flashcards, run fc_gen.py.  View them in your browser at
 [http://localost:8000/output/html](http://localost:8000/output/html)
@@ -63,16 +64,11 @@ To generate a complet set of flashcards, run fc_gen.py.  View them in your brows
 - [x] generate flashcards in xml (and html just for local viewing), in all key signatures:
   - [x] single notes
   - [x] intervals (m3, 3, 4, b5, 5, 6, and octave)
-  - [ ] non-inverted triads
-    - [ ] maj
-    - [ ] min
-    - [ ] maj7
-    - [ ] min7
-    - [ ] 7
+  - [ ] chord voicings
+    - [x] standard
+    - [x] "blues" (my go-to voicings mostly based on simple jazz guitar chords, with root & triad)
+    - [ ] more voicings from https://www.thejazzpianosite.com/jazz-piano-lessons/jazz-chord-voicings/
+- [ ] sequential notes or chords, rests
 
-- [ ] multiple notes
-- [ ] chord vs. sequence
-- [ ] modes?
-- [ ] control panel
-- [ ] MIDI input, to check and proceed to next flashcard
-- [ ] hosted website
+# Not for this repo:
+- [ ] hosted website - GitHub Pages supports only HTML, CSS, and JavaScript

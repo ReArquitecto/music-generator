@@ -1,5 +1,13 @@
+import urllib
+
+file_count = 0
+
 def gen_musichtml(title, html_filename, score_filename, description=""):
     '''Given musicXml file, write HTML file to display it'''
+
+    global file_count
+
+    safe_score_filename = urllib.parse.quote(score_filename)
     
     with open("src/template.html", "r") as template_file:
         template = template_file.read()
@@ -9,16 +17,16 @@ def gen_musichtml(title, html_filename, score_filename, description=""):
     # Replace placeholders in the template
     html_content = template.replace("{{ title }}", title)\
                            .replace("{{ description }}", desc_html)\
-                           .replace("{{ score_filename }}", score_filename)
+                           .replace("{{ score_filename }}", safe_score_filename)
 
     # Write to the new HTML file
     with open(html_filename, "w") as f:
         f.write(html_content)
+        file_count += 1
 
-    # Open in the browser
-    import webbrowser
-    import time
+import urllib.parse
+import webbrowser
 
 def display_musicxml(title, html_filename, score_filename, description=""):
     gen_musichtml(title, html_filename, score_filename, description)
-    webbrowser.open(f'http://localhost:8000/{html_filename}')
+    webbrowser.open(f'http://localhost:8000/{urllib.parse.quote(html_filename)}')

@@ -23,6 +23,7 @@ def random_note(range:NoteRange, keyAndMode:KeyAndMode=None):
     return Note(chosen, keyAndMode)
 
 def fc_randnote(fname:str, range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMode=None):
+    '''Generate a MusicXML file for a random quarter note in the given range, clef, and mode'''
     note = random_note(range, keyAndMode)
     tick = Tick(Duration(1), {note})
     seq = Sequence(clef, [tick])
@@ -30,13 +31,14 @@ def fc_randnote(fname:str, range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMod
     score.write(fname)
 
 def fc_notes(fname:str, notes:set[Note], clef:Clef=None, keyAndMode:KeyAndMode=None):
+    '''Generate MusicXML file for the given sequence of notes, as quarter notes, in the given range, clef, and mode'''
     tick = Tick(Duration(1), notes)
     seq = Sequence(clef, [tick])
     score = Score({seq}, keyAndMode=keyAndMode)
     score.write(fname)
 
 def fc_interval(fname:str, n1:Note, interval:int, clef:Clef=None, keyAndMode:KeyAndMode=None):
-    '''Create a flashcard with a random note and another note at the given interval above'''
+    '''Create a MusicXML file for the given interval vertically, given note, interval#, clef, and mode'''
     n2 = Note(n1.note.pitch.transpose(interval))
     tick = Tick(Duration(1), {n1, n2})
     seq = Sequence(clef, [tick])
@@ -44,6 +46,7 @@ def fc_interval(fname:str, n1:Note, interval:int, clef:Clef=None, keyAndMode:Key
     score.write(fname)
 
 def fc_chord(fname:str, n1:Note, type:ChordType, voicing:Voicing, key: Key):
+    '''Create a MusicXML file for the given chord, given root, type, voicing, and key signature'''
     ch = Chord(type, voicing)
     parts = chord(n1, key, ch.parts)
     # parts is a list of parts, where a part is a list of notes.

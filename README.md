@@ -53,7 +53,11 @@ For convenience, some generated MusicXML files are displayed in your browswer, b
 ```bash
 python src/server.py &
 ```
-For example, run `score.py`
+For example, run `score.py`, which will show a flashcard in your browser.
+
+Note: src/server.py reloads the page whenver it changes, but is slow when lots of pages are opened quickly.
+To handle that case, just run the default python http server:
+`python -m http.server &`
 
 To generate a complet set of flashcards, run fc_gen.py.  View them in your browser at
 [http://localost:8000/output/html](http://localost:8000/output/html)
@@ -64,11 +68,13 @@ To generate a complet set of flashcards, run fc_gen.py.  View them in your brows
 - [x] generate flashcards in xml (and html just for local viewing), in all key signatures:
   - [x] single notes
   - [x] intervals (m3, 3, 4, b5, 5, 6, and octave)
-  - [ ] chord voicings
+  - [x] chord voicings
     - [x] standard
     - [x] "blues" (my go-to voicings mostly based on simple jazz guitar chords, with root & triad)
     - [ ] more voicings from https://www.thejazzpianosite.com/jazz-piano-lessons/jazz-chord-voicings/
-- [ ] sequential notes or chords, rests
+  - [ ] sequential notes and arpeggios for chords
+  - [ ] scales/modes
 
 # Not for this repo:
-- [ ] hosted website - GitHub Pages supports only HTML, CSS, and JavaScript
+- hosted website - GitHub Pages supports only HTML, CSS, and JavaScript
+  - see https://github.com/jlearman/jlearman.github.io

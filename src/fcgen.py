@@ -5,8 +5,6 @@ import random
 from score import *
 from chords import *
 
-circle = {'C', 'G', 'D', 'A', 'E', 'B', 'Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F'}
-
 class NoteRange(object):
     def __init__(self, low:Note, high:Note):
         self.low = low

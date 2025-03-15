@@ -1,3 +1,5 @@
+# Score Elements - mostly, a wrapper for music21
+
 # a Note is a musical note or rest, including adornments like accidentals, articulations, etc.
 import music21
 from music21.duration import Duration

@@ -62,6 +62,11 @@ def standard_voicing(type=ChordType):
         case ChordType.alt: return (('P1', 'M3', 'A5', 'm7', 'm9', 'A9'),)
     return None
 
+# The two "blues" voicings are common useful voicings Jeff added, as examples
+# of how to use ChordType, and also potentially useful flashcards.
+# More useful voicings can be found at
+# https://www.thejazzpianosite.com/jazz-piano-lessons/jazz-chord-voicings/
+
 def blues_voicing(type=ChordType):
     match type:
         case ChordType.maj: return (('-P8',), ('P1', 'M3', 'P5'))

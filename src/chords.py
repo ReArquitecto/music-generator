@@ -46,11 +46,11 @@ def standard_voicing(type=ChordType):
         case ChordType.aug: return (('P1', 'M3', 'A5'),)
         case ChordType.maj7: return (('P1', 'M3', 'P5', 'M7'),)
         case ChordType.min7: return (('P1', 'm3', 'P5', 'm7'),)
-        case ChordType.dom7: return (('P1', 'm3', 'P5', 'M7'),)
+        case ChordType.dom7: return (('P1', 'M3', 'P5', 'm7'),)
         case ChordType.hdim: return (('P1', 'm3', 'd5', 'm7'),)
         case ChordType.dim7: return (('P1', 'm3', 'd5', 'd7'),)
         case ChordType.maj9: return (('P1', 'M3', 'P5', 'M7', 'M9'),)
-        case ChordType.min9: return (('P1', 'm3', 'P5', 'M7', 'M9'),)
+        case ChordType.min9: return (('P1', 'm3', 'P5', 'm7', 'M9'),)
         case ChordType.dom9: return (('P1', 'M3', 'P5', 'm7', 'M9'),)
         case ChordType.dom7b9: return (('P1', 'M3', 'P5', 'm7', 'm9'),)
         case ChordType.dom7s9: return (('P1', 'M3', 'P5', 'm7', 'a9'),)
@@ -81,7 +81,7 @@ def blues_voicing(type=ChordType):
 
         case ChordType.maj9: return (('-P8',), ('M3', 'M7', 'M9'))
         case ChordType.min9: return (('-P8',), ('m3', 'm7', 'M9'))
-        case ChordType.dom9: return (('-P8',), ('m3', 'M7', 'M9'))
+        case ChordType.dom9: return (('-P8',), ('M3', 'm7', 'M9'))
         case ChordType.dom7b9: return (('-P8',), ('M3', 'm7', 'm9'))
         case ChordType.dom7s9: return (('-P8',), ('M3', 'm7', 'a9'))
 

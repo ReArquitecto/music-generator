@@ -20,7 +20,7 @@
                 darkMode: true,
                 drawingParameters: "compacttight"
             });
-            osmd.load("http://localhost:8000/{{ score_filename }}").then(function() {
+            osmd.load("/{{ score_filename }}").then(function() {
                 osmd.render();
             });
         });

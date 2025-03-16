@@ -98,3 +98,8 @@ if __name__ == "__main__":
         print(kam)
         fc_randnote("output/fcgen-key.xml", NoteRange(Note("A4"), Note("G#5")), keyAndMode=kam)
         web.display_musicxml("fcgen-key", "output/fcgen-key.html", "output/fcgen-key.xml", description=str(kam))
+    
+    if True:
+        # show a chord
+        fc_chord("output/fcgen-chord.xml", Note("D4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
+        web.display_musicxml("fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description="D7 in C")

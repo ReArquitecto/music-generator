@@ -102,18 +102,19 @@ def blues_tight_voicing(type=ChordType):
     return None
 
 class Voicing(Enum):
+    """map voicing name to voicing function"""
+    # Note that when enum values are functions, the function is actually
+    # stored as the element of a tuple.
     standard = standard_voicing,        # 1, 3, 5, ...
     blues = blues_voicing,              # root plus triad
     blues_tight = blues_tight_voicing,  # root plus tighter triad
     # More coming, see https://www.thejazzpianosite.com/jazz-piano-lessons/jazz-chord-voicings/
 
+    def __call__(self, *args):
+        return self.value[0](*args)
+
 class Chord(object):
     def __init__(self, type=ChordType, voicing:Voicing=Voicing.standard):
-        self.parts = voicing.value[0](type)
-        pass
-        return
-        match voicing:
-            case Voicing.blues:
-                self.parts = blues_voicing(type)
-            case _:
-                self.parts = standard_voicing(type)
+        parts = voicing(type)
+        self.parts = parts
+

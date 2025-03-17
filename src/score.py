@@ -218,8 +218,14 @@ class Score:
     
     def write(self, filename: str):
         '''Write the score to a file'''
-        self.score().write('musicxml', fp=filename) 
+        self.score().write('musicxml', fp=filename)
         print("Wrote '" + filename + "'")
+        ## %%%%
+        m21_score = self.score()
+        xml_str = music21.converter.subConverters.ConverterMusicXML().write(m21_score, fmt='musicxml')
+        print(xml_str)
+        # exporter = music21.musicxml.m21ToXml.GeneralObjectExporter()
+        # print(exporter.fromScore(self.score()))
 
 if __name__ == '__main__':
     import web

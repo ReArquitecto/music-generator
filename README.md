@@ -59,12 +59,13 @@ Note: src/server.py reloads the page whenver it changes, but is slow when lots o
 To handle that case, just run the default python http server:
 `python -m http.server &`
 
-To generate a complet set of flashcards, run fc_gen.py.  View them in your browser at
+To generate a complet set of flashcards, run fcset_gen.py.  View them in your browser at
 [http://localost:8000/output/html](http://localost:8000/output/html)
 
 # Plans/Hopes
 
-- [ ] refactor for better use by PM (e.g. fc_gen shouldn't display the output)
+- [x] refactor for better use by PM (e.g. fcset_gen shouldn't display the output)
+- [ ] refactor for API (generate control panel, interpret responses)
 - [x] generate flashcards in xml (and html just for local viewing), in all key signatures:
   - [x] single notes
   - [x] intervals (m3, 3, 4, b5, 5, 6, and octave)

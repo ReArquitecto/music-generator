@@ -215,17 +215,15 @@ class Score:
         score.add(bass)
         return score
 
-    
     def write(self, filename: str):
         '''Write the score to a file'''
         self.score().write('musicxml', fp=filename)
         print("Wrote '" + filename + "'")
-        ## %%%%
+
+    def toXml(self):
+        # generate XML text rather than writing to file (not working)
         m21_score = self.score()
-        xml_str = music21.converter.subConverters.ConverterMusicXML().write(m21_score, fmt='musicxml')
-        print(xml_str)
-        # exporter = music21.musicxml.m21ToXml.GeneralObjectExporter()
-        # print(exporter.fromScore(self.score()))
+        return music21.musicxml.m21ToXml.GeneralObjectExporter(m21_score).parse().decode('utf-8')
 
 if __name__ == '__main__':
     import web
@@ -299,4 +297,5 @@ if __name__ == '__main__':
         score = Score({seq})
         score = score.split_clefs()
         score.write('output/score-split.xml')
-        web.display_musicxml('score-split', 'output/score-split.html', 'output/score-split.xml')
+        # web.display_musicxml('score-split', 'output/score-split.html', 'output/score-split.xml')
+        print(str(score.toXml()))

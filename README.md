@@ -65,6 +65,7 @@ To generate a complet set of flashcards, run fcset_gen.py.  View them in your br
 # Plans/Hopes
 
 - [x] refactor for better use by PM (e.g. fcset_gen shouldn't display the output)
+- [x] generate MIDI
 - [ ] refactor for API (generate control panel, interpret responses)
 - [x] generate flashcards in xml (and html just for local viewing), in all key signatures:
   - [x] single notes

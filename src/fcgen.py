@@ -20,27 +20,27 @@ def random_note(range:NoteRange, keyAndMode:KeyAndMode=None):
     chosen = random.randint(low, high)
     return Note(chosen, keyAndMode)
 
-def fc_randnote(range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMode=None) -> str:
+def fc_randnote(range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
     '''Generate musicXml for a random quarter note in the given range, clef, and mode'''
     note = random_note(range, keyAndMode)
     tick = Tick(Duration(1), {note})
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toXml()
+    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
 
-def fc_notes(notes:set[Note], clef:Clef=None, keyAndMode:KeyAndMode=None) -> str:
+def fc_notes(notes:set[Note], clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
     '''Generate Score for the given sequence of notes, as quarter notes, in the given range, clef, and mode'''
     tick = Tick(Duration(1), notes)
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toXml()
+    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
 
-def fc_interval(n1:Note, interval:int, clef:Clef=None, keyAndMode:KeyAndMode=None) -> str:
+def fc_interval(n1:Note, interval:int, clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
     '''Create musicXml for the given interval vertically, given note, interval#, clef, and mode'''
     n2 = Note(n1.note.pitch.transpose(interval))
     tick = Tick(Duration(1), {n1, n2})
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toXml()
+    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
 
-def fc_chord(n1:Note, type:ChordType, voicing:Voicing, key: Key) -> str:
+def fc_chord(n1:Note, type:ChordType, voicing:Voicing, key: Key) -> typing.Tuple[str, str]:
     '''Create musicXml for the given chord, given root, type, voicing, and key signature'''
     ch = Chord(type, voicing)
     parts = chord(n1, key, ch.parts)
@@ -57,7 +57,7 @@ def fc_chord(n1:Note, type:ChordType, voicing:Voicing, key: Key) -> str:
             clef = Clef.Bass
         seq = Sequence(clef, [tick])
         seqs.append(seq)
-    return Score(seqs, keyAndMode=KeyAndMode(key, Mode.major)).toXml()
+    return Score(seqs, keyAndMode=KeyAndMode(key, Mode.major)).toOutputs()
 
 def fc_write_and_display(scoreXml:str, title:str, html_filename:str, xml_filename:str, description:str=""):
     with open(xml_filename, "w") as f:
@@ -82,11 +82,11 @@ if __name__ == "__main__":
         # Generate flash cards, each with a random note
 
         # Note: in the following, the notes are above bass clef to show that bass clef is forced
-        scoreXml = fc_randnote(NoteRange(Note("C#4"), Note("G4")), Clef.Bass)
+        (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("C#4"), Note("G4")), Clef.Bass)
         fc_write_and_display(scoreXml, "fcgen-note-bass", "output/fcgen-note-bass.html", "output/fcgen-note-bass.xml")
 
         # Note that this is not the note printed above
-        scoreXml = fc_randnote(NoteRange(Note("C4"), Note("G4")))
+        (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("C4"), Note("G4")))
         fc_write_and_display(scoreXml, "fcgen-note", "output/fcgen-note.html", "output/fcgen-note.xml")
 
     if True:
@@ -96,10 +96,10 @@ if __name__ == "__main__":
         modes = {Mode.major} # keep it simple ... any mode works but this way it's easier to see if it makes sense
         kam = KeyAndMode(select_key(keys), select_mode(modes))
         print(kam)
-        scoreXml = fc_randnote(NoteRange(Note("A4"), Note("G#5")), keyAndMode=kam)
+        (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("A4"), Note("G#5")), keyAndMode=kam)
         fc_write_and_display(scoreXml, "fcgen-key", "output/fcgen-key.html", "output/fcgen-key.xml", description=str(kam))
     
     if True:
         # show a chord
-        scoreXml = fc_chord(Note("D4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
+        (scoreXml, scoreMidi) = fc_chord(Note("D4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
         fc_write_and_display(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description="D7 in C")

@@ -8,6 +8,10 @@ import tempfile
 import webbrowser
 from pathlib import Path
 import sys
+import typing
+
+import music21.midi.translate
+
 
 class Clef(Enum):
     '''Clef types'''
@@ -220,10 +224,19 @@ class Score:
         self.score().write('musicxml', fp=filename)
         print("Wrote '" + filename + "'")
 
-    def toXml(self):
+    def toXml(self) -> str:
         # generate XML text rather than writing to file (not working)
         m21_score = self.score()
         return music21.musicxml.m21ToXml.GeneralObjectExporter(m21_score).parse().decode('utf-8')
+    
+    def toMidi(self) -> bytes:
+        m21_score = self.score()
+        mf = music21.midi.translate.streamToMidiFile(m21_score)
+        midi_bytes = mf.writestr()
+        return midi_bytes
+    
+    def toOutputs(self) -> typing.Tuple[str, bytes]:
+        return (self.toXml(), self.toMidi())
 
 if __name__ == '__main__':
     import web
@@ -296,6 +309,26 @@ if __name__ == '__main__':
         seq = Sequence(clef=None, ticks={tick})
         score = Score({seq})
         score = score.split_clefs()
-        score.write('output/score-split.xml')
-        # web.display_musicxml('score-split', 'output/score-split.html', 'output/score-split.xml')
-        print(str(score.toXml()))
+        if True:
+            score.write('output/score-split.xml')
+            web.display_musicxml('score-split', 'output/score-split.html', 'output/score-split.xml')
+        xml, midi = score.toOutputs()
+        # print(xml)
+
+        # play the MIDI
+        if True:
+            import io
+            # Create an in-memory file object from the bytes
+            midi_file = io.BytesIO(midi)
+
+            import pygame
+            pygame.mixer.init()
+
+            # Load and play the MIDI data
+            pygame.mixer.music.load(midi_file)
+            pygame.mixer.music.play()
+
+            # Keep the program running while the music plays
+            while pygame.mixer.music.get_busy():
+                pygame.time.Clock().tick(10)
+

@@ -63,19 +63,16 @@ class KeyAndMode:
 # circle of fifths
 circle = ('C', 'G', 'D', 'A', 'E', 'B', 'Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F')
 
+# root notes where we won't see double flats or sharps for dom7 chords
+root_notes = ('A', 'Bb', 'B', 'C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab')
+
 # chromatic scale using sharps
 chromatic_sharps = ('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B' )
 
 def notes_in_keysig(key: str):
     """return all the notes in a chromatic scale (not necessariy in order) for the
     given (major) key, using sharps or flats as appropriate for the key."""
-    match key:
-        case 'C#' |'D' | 'D#' | 'E' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B':
-            return chromatic_sharps
-        case 'C':
-            return ('C', 'C#', 'Db', 'D', 'D#', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab', 'A', 'Bb')
-        case _:
-            return circle
+    return root_notes
 
 # A Note is a musical note or rest, including adornments like accidentals, articulations, etc.
 # Note names consist of a capital letter A-G followed by an optional accidental and octave number,

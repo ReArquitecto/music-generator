@@ -75,7 +75,7 @@ def select_mode(mode:set[Mode]):
 if __name__ == "__main__":
     import web
 
-    if True:
+    if False:
         # print a random note
         print("Random note: " + str(random_note(NoteRange(Note("C4"), Note("G4")))))
 
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("C4"), Note("G4")))
         fc_write_and_display(scoreXml, "fcgen-note", "output/fcgen-note.html", "output/fcgen-note.xml")
 
-    if True:
+    if False:
         # select random key and mode
         keys = {Key.C, Key.D, Key.E, Key.F, Key.G, Key.A, Key.B, Key.Bflat, Key.Eflat, Key.Aflat, Key.Dflat, Key.Gflat}
         modes = {Mode.ionian, Mode.dorian, Mode.phrygian, Mode.lydian, Mode.mixolydian, Mode.aeolian, Mode.locrian}
@@ -101,5 +101,5 @@ if __name__ == "__main__":
     
     if True:
         # show a chord
-        (scoreXml, scoreMidi) = fc_chord(Note("D4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
+        (scoreXml, scoreMidi) = fc_chord(Note("D#4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
         fc_write_and_display(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description="D7 in C")

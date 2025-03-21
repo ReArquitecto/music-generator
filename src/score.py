@@ -105,15 +105,19 @@ class Note:
         '''Return the MIDI number of the note'''
         return self.note.pitch.midi
 
-def transpose(pitch:music21.pitch.Pitch, degree:str):
-    return pitch.transpose(degree)
+def transpose(pitch:music21.pitch.Pitch, change:str):
+    # change is either a Music21 degree (e.g., 'M3', 'm3', 'P5') or a tuple of degrees to apply in order
+    degrees = (change,)
+    if isinstance(change, tuple):
+        degrees = change
+    for d in degrees:
+        pitch = pitch.transpose(d)
+    return pitch
 
 def chord(root: Note, keysig: Key, parts: list[list[str]]):
-    '''Return one or two lists of notes for the chord with the given parts (lists of intervals, per hand)'''
+    '''Return one or two lists of notes for the chord with the given parts (lists of intervals, per clef)'''
     if parts is None:
         return None
-    # k = music21.key.Key(keysig.name)
-    # root_note = k.pitchFromDegree(k.getScaleDegreeFromPitch(root_pitch))
     root_pitch = root.note.pitch
     note_parts = []
     for part in parts:

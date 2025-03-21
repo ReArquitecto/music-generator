@@ -75,11 +75,11 @@ def blues_voicing(type=ChordType):
         case ChordType.min: return (('-P8',), ('P1', 'm3', 'P5'))
         case ChordType.dim: return (('-P8',), ('P1', 'm3', 'd5'))
         case ChordType.aug: return (('-P8',), ('P1', 'M3', 'A5'))
-        case ChordType.maj7: return (('-P8',), (-1, 'M3', 'P5'))
-        case ChordType.min7: return (('-P8',), (-2, 'm3', 'P5'))
-        case ChordType.dom7: return (('-P8',), (-2, 'M3', 'P5'))
+        case ChordType.maj7: return (('-P8',), (('M7', '-P8'), 'M3', 'P5'))
+        case ChordType.min7: return (('-P8',), (('m7', '-P8'), 'm3', 'P5'))
+        case ChordType.dom7: return (('-P8',), (('m7', '-P8'), 'M3', 'P5'))
         case ChordType.hdim: return None
-        case ChordType.dim7: return (('-P8',), (-3, 'm3', 'd5'))
+        case ChordType.dim7: return (('-P8',), (('d7', '-P8'), 'm3', 'd5'))
 
         case ChordType.maj9: return (('-P8',), ('M3', 'M7', 'M9'))
         case ChordType.min9: return (('-P8',), ('m3', 'm7', 'M9'))
@@ -91,17 +91,17 @@ def blues_voicing(type=ChordType):
         case ChordType.dom11: return None
         case ChordType.min11: return (('-P8',), ('P5', 'm7', 'M9', 'm10', 'P11'))
         case ChordType.maj11: return None
-        case ChordType.dom13: return (('-P8',), (-2, 'M3', 'M6'))
-        case ChordType.domb13: return (('-P8',), (-2, 'M3', 'm6'))
+        case ChordType.domb13: return (('-P8',), (('m7', ), 'M3', 'm6'))
+        case ChordType.dom13: return (('-P8',), (('m7', '-P8'), 'M3', 'M6'))
         case ChordType.alt: return (('-P8',), ('M3', 'A5', 'm7', 'm9', 'A9'))
     return None
 
 def blues_tight_voicing(type=ChordType):
     match type:
-        case ChordType.maj9: return (('-P8',), (-1, 'M2', 'M3', 'P5'))
-        case ChordType.min9: return (('-P8',), (-2, 'M2', 'm3', 'P5'))
-        case ChordType.dom9: return (('-P8',), (-2, 'M2', 'M3', 'P5'))
-        case ChordType.dom7b9: return (('-P8',), (-2, 'm2', 'M3', 'P5'))
+        case ChordType.maj9: return (('-P8',), (('M7', '-P8'), 'M2', 'M3', 'P5'))
+        case ChordType.min9: return (('-P8',), (('m7', '-P8'), 'M2', 'm3', 'P5'))
+        case ChordType.dom9: return (('-P8',), (('m7', '-P8'), 'M2', 'M3', 'P5'))
+        case ChordType.dom7b9: return (('-P8',), (('m7', '-P8'), 'm2', 'M3', 'P5'))
     return None
 
 class Voicing(Enum):

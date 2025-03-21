@@ -101,5 +101,9 @@ if __name__ == "__main__":
     
     if True:
         # show a chord
-        (scoreXml, scoreMidi) = fc_chord(Note("D#4"), type=ChordType.dom7, voicing=Voicing.blues, key=Key.C)
-        fc_write_and_display(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description="D7 in C")
+        note = Note("C4")
+        ct = ChordType.dom7
+        key = Key.C
+        voicing = Voicing.blues
+        (scoreXml, scoreMidi) = fc_chord(note, type=ct, voicing=voicing, key=key)
+        fc_write_and_display(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description=f"{voicing} {note} {ct} in {key}")

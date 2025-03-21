@@ -317,19 +317,6 @@ if __name__ == '__main__':
         # print(xml)
 
         # play the MIDI
-        if True:
-            import io
-            # Create an in-memory file object from the bytes
-            midi_file = io.BytesIO(midi)
-
-            import pygame
-            pygame.mixer.init()
-
-            # Load and play the MIDI data
-            pygame.mixer.music.load(midi_file)
-            pygame.mixer.music.play()
-
-            # Keep the program running while the music plays
-            while pygame.mixer.music.get_busy():
-                pygame.time.Clock().tick(10)
+        from midi import midi_play
+        midi_play(midi)
 

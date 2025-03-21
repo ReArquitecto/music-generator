@@ -34,6 +34,7 @@ class ChordType(Enum):
 
     # 13ths
     dom13 = "13"
+    domb13 = "7b13"
 
     alt = "alt" # need a section on these, see https://en.wikipedia.org/wiki/Altered_chord
 
@@ -59,6 +60,7 @@ def standard_voicing(type=ChordType):
         case ChordType.min11: return (('P1', 'm3', 'P5', 'm7', 'M9', 'P11'),)
         case ChordType.maj11: return (('P1', 'M3', 'P5', 'M7', 'M9', 'P11'),)
         case ChordType.dom13: return (('P1', 'M3', 'P5', 'm7', 'M9', 'P11', 'M13'),)
+        case ChordType.domb13: return (('P1', 'M3', 'P5', 'm7', 'M9', 'P11', 'm13'),)
         case ChordType.alt: return (('P1', 'M3', 'A5', 'm7', 'm9', 'A9'),)
     return None
 
@@ -90,6 +92,7 @@ def blues_voicing(type=ChordType):
         case ChordType.min11: return (('-P8',), ('P5', 'm7', 'M9', 'm10', 'P11'))
         case ChordType.maj11: return None
         case ChordType.dom13: return (('-P8',), (-2, 'M3', 'M6'))
+        case ChordType.domb13: return (('-P8',), (-2, 'M3', 'm6'))
         case ChordType.alt: return (('-P8',), ('M3', 'A5', 'm7', 'm9', 'A9'))
     return None
 

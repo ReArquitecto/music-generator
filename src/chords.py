@@ -36,8 +36,6 @@ class ChordType(Enum):
     dom13 = "13"
     domb13 = "7b13"
 
-    alt = "alt" # need a section on these, see https://en.wikipedia.org/wiki/Altered_chord
-
 
 def standard_voicing(type=ChordType):
     match type:
@@ -61,7 +59,6 @@ def standard_voicing(type=ChordType):
         case ChordType.maj11: return (('P1', 'M3', 'P5', 'M7', 'M9', 'P11'),)
         case ChordType.dom13: return (('P1', 'M3', 'P5', 'm7', 'M9', 'P11', 'M13'),)
         case ChordType.domb13: return (('P1', 'M3', 'P5', 'm7', 'M9', 'P11', 'm13'),)
-        case ChordType.alt: return (('P1', 'M3', 'A5', 'm7', 'm9', 'A9'),)
     return None
 
 # The two "blues" voicings are common useful voicings Jeff added, as examples
@@ -75,6 +72,7 @@ def blues_voicing(type=ChordType):
         case ChordType.min: return (('-P8',), ('P1', 'm3', 'P5'))
         case ChordType.dim: return (('-P8',), ('P1', 'm3', 'd5'))
         case ChordType.aug: return (('-P8',), ('P1', 'M3', 'A5'))
+
         case ChordType.maj7: return (('-P8',), (('M7', '-P8'), 'M3', 'P5'))
         case ChordType.min7: return (('-P8',), (('m7', '-P8'), 'm3', 'P5'))
         case ChordType.dom7: return (('-P8',), (('m7', '-P8'), 'M3', 'P5'))
@@ -91,9 +89,9 @@ def blues_voicing(type=ChordType):
         case ChordType.dom11: return None
         case ChordType.min11: return (('-P8',), ('P5', 'm7', 'M9', 'm10', 'P11'))
         case ChordType.maj11: return None
+
         case ChordType.domb13: return (('-P8',), (('m7', ), 'M3', 'm6'))
         case ChordType.dom13: return (('-P8',), (('m7', '-P8'), 'M3', 'M6'))
-        case ChordType.alt: return (('-P8',), ('M3', 'A5', 'm7', 'm9', 'A9'))
     return None
 
 def blues_tight_voicing(type=ChordType):

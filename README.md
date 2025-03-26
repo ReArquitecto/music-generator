@@ -30,6 +30,15 @@ Microsoft VS Code automatically starts the virtual environment when you open the
 
 If you're running a different IDE, you will probably want to look up how to do this for your IDE. If you don't enable this in your IDE or are unable to do so, you'll have to start the environment from the terminal as needed.
 
+## Install music-generator package locally (in editable mode)
+
+This allows package files to import modules from `src/` (which is only used in `__main__` clauses
+for quick development checks.)
+
+```bash
+pip install -e .
+```
+
 ## Install Project Dependencies
 In the terminal:
 ```bash

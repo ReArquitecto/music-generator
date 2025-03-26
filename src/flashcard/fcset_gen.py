@@ -127,7 +127,11 @@ def gen_chords():
                     os.rmdir(xmldir)
 
 if __name__ == "__main__":
+    #import os
+    #wd = os.getcwd()
+    #os.chdir('..')
     import web
+    #os.chdir(wd)
 
     # Generate a suite of flashcards
 

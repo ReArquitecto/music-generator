@@ -240,7 +240,12 @@ class Score:
         return (self.toXml(), self.toMidi())
 
 if __name__ == '__main__':
+
+    #import os
+    #wd = os.getcwd()
+    #os.chdir('..')
     import web
+    #os.chdir(wd)
 
     if False:
         n1 = Note('C4')
@@ -249,6 +254,7 @@ if __name__ == '__main__':
         treble_tick = Tick(Duration('quarter'), {n2})
         treble_tick.add({n3})
         print("Treble tick:", treble_tick)
+
 
         n4 = Note('C3')
         bass_tick = Tick(Duration('quarter'), {n1, n4})

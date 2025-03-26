@@ -1,0 +1,19 @@
+[project]
+name = "music-generator-jlearman"
+version = "0.0.1"
+authors = [
+  { name="Jeff Learman", email="jeff.learman@gmail.com"},
+  ]
+  description="Music flashcard generator"
+  readme = "README.md"
+  requires-python = ">=3.8"
+  classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "UNLICENSE"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/ReArquitecto/music-generator"
+Issues = "https://github.com/ReArquitecto/music-generator/issues"

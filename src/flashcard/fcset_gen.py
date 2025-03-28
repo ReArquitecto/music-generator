@@ -4,8 +4,9 @@ import shutil
 import os
 import sys
 
-from score import *
-from fcgen import *
+from flashcard.score import *
+from flashcard.chords import *
+from flashcard.fcgen import *
 
 deleteDirs = True
 
@@ -111,7 +112,7 @@ def gen_chords():
                 found = False
                 dir = f"chords/keysig-{keysig}/{voicing.name}/{ctype.name}"
                 htmldir, xmldir = mkdirs(dir)
-                for k in notes_in_keysig(keysig):
+                for k in root_notes:
                     notename = k + octave
                     note = Note(notename)
                     html_fname = f"{htmldir}/{k}{ctype.name}.html"
@@ -135,11 +136,11 @@ if __name__ == "__main__":
 
     # Generate a suite of flashcards
 
-    # deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
+    deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
     mkdirs("") # clear the decks (empties xml and html dirs if they exist)
 
-    gen_singles()
-    gen_intervals()
+    # gen_singles()
+    # gen_intervals()
     gen_chords()
 
     print(f"{web.file_count} flashcards generated")

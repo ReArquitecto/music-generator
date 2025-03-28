@@ -2,8 +2,8 @@
 
 import random
 
-from score import *
-from chords import *
+from flashcard.score import *
+from flashcard.chords import *
 
 class NoteRange(object):
     def __init__(self, low:Note, high:Note):

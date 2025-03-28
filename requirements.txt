@@ -9,6 +9,7 @@ decorator==5.1.1
 executing==2.2.0
 fonttools==4.55.6
 idna==3.10
+iniconfig==2.1.0
 ipython==8.32.0
 jedi==0.19.2
 joblib==1.4.2
@@ -19,16 +20,19 @@ MarkupSafe==3.0.2
 matplotlib==3.10.0
 matplotlib-inline==0.1.7
 more-itertools==10.6.0
+-e git+https://github.com/ReArquitecto/music-generator.git@7b339172d88cf157558b390b38f6b183d1230aec#egg=music_generator_jlearman
 music21==9.3.0
 numpy==2.2.2
 packaging==24.2
 parso==0.8.4
 pillow==11.1.0
+pluggy==1.5.0
 prompt_toolkit==3.0.50
 pure_eval==0.2.3
 pygame==2.6.1
 Pygments==2.19.1
 pyparsing==3.2.1
+pytest==8.3.5
 python-dateutil==2.9.0.post0
 requests==2.32.3
 six==1.17.0

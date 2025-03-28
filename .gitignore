@@ -6,6 +6,9 @@ __pycache__/
 .venv
 .env
 
+# personal preferences
+junk*
+
 # VS Code
 *.code-workspace
 

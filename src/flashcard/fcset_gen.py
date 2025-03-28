@@ -2,7 +2,6 @@
 
 import shutil
 import os
-import sys
 
 from flashcard.score import *
 from flashcard.chords import *
@@ -128,19 +127,15 @@ def gen_chords():
                     os.rmdir(xmldir)
 
 if __name__ == "__main__":
-    #import os
-    #wd = os.getcwd()
-    #os.chdir('..')
     import web
-    #os.chdir(wd)
 
     # Generate a suite of flashcards
 
-    deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
+    # deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
     mkdirs("") # clear the decks (empties xml and html dirs if they exist)
 
-    # gen_singles()
-    # gen_intervals()
+    gen_singles()
+    gen_intervals()
     gen_chords()
 
     print(f"{web.file_count} flashcards generated")

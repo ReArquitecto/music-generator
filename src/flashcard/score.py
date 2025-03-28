@@ -1,16 +1,11 @@
 # Score Elements - mostly, a wrapper for music21
 
-import music21
-from music21.duration import Duration
 from enum import Enum
-import tempfile
-import webbrowser
-from pathlib import Path
-import sys
 import typing
 
+import music21
 import music21.midi.translate
-
+from music21.duration import Duration
 
 class Clef(Enum):
     '''Clef types'''
@@ -237,11 +232,7 @@ class Score:
 
 if __name__ == '__main__':
 
-    #import os
-    #wd = os.getcwd()
-    #os.chdir('..')
     import web
-    #os.chdir(wd)
 
     if False:
         n1 = Note('C4')

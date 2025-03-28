@@ -73,11 +73,7 @@ def select_mode(mode:set[Mode]):
     return random.choice(list(mode))
 
 if __name__ == "__main__":
-    import os
-    #wd = os.getcwd()
-    #os.chdir('..')
     import web
-    #os.chdir(wd)
 
     if False:
         # print a random note

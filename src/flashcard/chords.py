@@ -114,6 +114,9 @@ class Voicing(Enum):
     def __call__(self, *args):
         return self.value[0](*args)
 
+# TODO: it's confusing to have Chord here and chord() in score.py.
+# This only returns a tuple of "parts" (one or two, right hand and optionall left hand)
+# Consider finding a better name.
 class Chord(object):
     def __init__(self, type=ChordType, voicing:Voicing=Voicing.standard):
         parts = voicing(type)

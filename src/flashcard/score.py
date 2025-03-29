@@ -60,11 +60,6 @@ circle = ('C', 'G', 'D', 'A', 'E', 'B', 'Gb', 'Db', 'Ab', 'Eb', 'Bb', 'F')
 # root notes where we won't see double flats or sharps for dom7 chords
 root_notes = ('A', 'Bb', 'B', 'C', 'C#', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'Gb', 'G', 'G#', 'Ab')
 
-def notes_in_keysig(key: str):
-    """return all the notes in a chromatic scale (not necessariy in order) for the
-    given (major) key, using sharps or flats as appropriate for the key."""
-    return root_notes
-
 # A Note is a musical note or rest, including adornments like accidentals, articulations, etc.
 # Note names consist of a capital letter A-G followed by an optional accidental and octave number,
 # where C4 is middle C.  We use this rather than pitch so that the notation is as expected.
@@ -82,9 +77,11 @@ class Note:
             # FIXME: should use music21.pitch instead
             self.note = music21.note.Note(name)
             if not isinstance(name, str):
+                # it's a MIDI note number
                 self.name = self.note.name + str(self.note.octave)
             if keyAndMode is not None:
                 # Fix the note to match the key signature
+                # FIXME: not working as intended, see test_note_named_note_fix() and test_note_midi_note_fix_flatkey()
                 ks = music21.key.KeySignature(keyAndMode.music21_key.sharps)
                 self.note.pitch.accidental = ks.accidentalByStep(self.note.pitch.step)
                 self.name = self.note.name + str(self.note.octave)
@@ -95,6 +92,14 @@ class Note:
     def midi(self):
         '''Return the MIDI number of the note'''
         return self.note.pitch.midi
+
+    def __eq__(self, other):
+        if not isinstance(other, Note):
+            return False
+        return self.name == other.name
+
+    def __hash__(self):
+        return hash(self.name)
 
 def transpose(pitch:music21.pitch.Pitch, change:str):
     # change is either a Music21 degree (e.g., 'M3', 'm3', 'P5') or a tuple of degrees to apply in order
@@ -124,10 +129,13 @@ class Tick:
         self.duration = duration
         if notes == None:
             notes = set()
-        self.notes = notes
+        else:
+            self.notes = notes
 
     def __str__(self):
-        return "Tick " + str(self.duration) + " " + " ".join([str(n) for n in self.notes])
+        # TODO: for now, ignore duration because it's always 1
+        # return "Tick " + str(self.duration) + " " + " ".join(sorted([str(n) for n in self.notes]))
+        return "Tick " + " ".join(sorted([str(n) for n in self.notes]))
     
     def add(self, notes: set[Note]):
         self.notes.update(notes)
@@ -157,7 +165,7 @@ class Score:
         self.keyAndMode = keyAndMode
     
     def __str__(self):
-        return "System " + " ".join([str(s) for s in self.sequences])
+        return "Score " + " ".join([str(s) for s in self.sequences])
     
     def add(self, sequence: Sequence):
         '''Add a sequence to the system'''
@@ -181,34 +189,7 @@ class Score:
                 chord = music21.chord.Chord([note.note for note in tick.notes])
                 part.append(chord)
             score.append(part)
-        return score
-    
-    def split_clefs(self, note:Note=None): # NOTE: not currently used
-        '''split score into bass and treble clefs'''
-        if len(self.sequences) != 1:
-            return self
-        
-        old_seq = next(iter(self.sequences))
-        if old_seq.clef != Clef.Treble and old_seq.clef != None:
-            return self
-        
-        score = Score(keyAndMode=self.keyAndMode)
-        treb = Sequence(clef=Clef.Treble)
-        bass = Sequence(clef=Clef.Bass)
-        for old_tick in old_seq.ticks:
-            treb_notes = set()
-            bass_notes = set()
-            for note in old_tick.notes:
-                if note.note.pitch.midi >= music21.pitch.Pitch('C4').midi: # FIXME should use note parameter
-                    treb_notes.add(note)
-                else:
-                    bass_notes.add(note)
-            if treb_notes:
-                treb.add([Tick(old_tick.duration, treb_notes)])
-            if bass_notes:
-                bass.add([Tick(old_tick.duration, bass_notes)])
-        score.add(treb)
-        score.add(bass)
+        # TODO: put treble part first, so treble clef is on top in rendering
         return score
 
     def write(self, filename: str):
@@ -230,7 +211,7 @@ class Score:
     def toOutputs(self) -> typing.Tuple[str, bytes]:
         return (self.toXml(), self.toMidi())
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
 
     import web
 
@@ -295,14 +276,15 @@ if __name__ == '__main__':
             print(note)
 
     if True:
-        n1 = Note('C4')
-        n2 = Note('Eb4')
-        n3 = Note('G4')
-        n4 = Note('C3')
-        tick = Tick(Duration('quarter'), {n1, n2, n3, n4})
-        seq = Sequence(clef=None, ticks={tick})
-        score = Score({seq})
-        score = score.split_clefs()
+        n1 = Note('C3')
+        n2 = Note('C4')
+        n3 = Note('Eb4')
+        n4 = Note('G4')
+        ttick = Tick(Duration('quarter'), {n2, n3, n4})
+        btick = Tick(Duration('quarter'), {n1})
+        tseq = Sequence(clef=Clef.Treble, ticks={ttick})
+        bseq = Sequence(clef=Clef.Bass, ticks={btick})
+        score = Score([tseq, bseq])
         if True:
             score.write('output/score-split.xml')
             web.display_musicxml('score-split', 'output/score-split.html', 'output/score-split.xml')

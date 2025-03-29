@@ -21,7 +21,7 @@ MarkupSafe==3.0.2
 matplotlib==3.10.0
 matplotlib-inline==0.1.7
 more-itertools==10.6.0
--e git+https://github.com/ReArquitecto/music-generator.git@04606878678697055d5bbf5b57c8f4fc2e76e1a9#egg=music_generator_jlearman
+-e git+https://github.com/ReArquitecto/music-generator.git@9b674ac710ef638da22a90579e9ec482657d2cf9#egg=music_generator_jlearman
 music21==9.3.0
 numpy==2.2.2
 packaging==24.2
@@ -35,6 +35,7 @@ Pygments==2.19.1
 pyparsing==3.2.1
 pytest==8.3.5
 pytest-cov==6.0.0
+pytest-timeout==2.3.1
 python-dateutil==2.9.0.post0
 requests==2.32.3
 six==1.17.0

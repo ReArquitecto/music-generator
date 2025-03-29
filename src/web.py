@@ -30,3 +30,8 @@ import webbrowser
 def display_musicxml(title:str, html_filename:str, score_filename:str, description:str=""):
     gen_musichtml(title, html_filename, score_filename, description)
     webbrowser.open(f'http://localhost:8000/{urllib.parse.quote(html_filename)}')
+
+def write_and_display_musicxml(scoreXml:str, title:str, html_filename:str, xml_filename:str, description:str=""):
+    with open(xml_filename, "w") as f:
+        f.write(scoreXml)
+    display_musicxml(title, html_filename, xml_filename, description)

@@ -1,5 +1,8 @@
 # generate sets of flashcards
 
+# NOTE: no coverage testing for this file.  It takes a long time generating lots of files.
+# If refactored perhaps parts could be tested.
+
 import shutil
 import os
 

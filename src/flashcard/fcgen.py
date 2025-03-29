@@ -11,7 +11,7 @@ class NoteRange(object):
         self.high = high
 
     def __str__(self):
-        return "NoteRange(%d, %d)" % (self.low, self.high)
+        return f"NoteRange({self.low},{self.high})"
 
 def random_note(range:NoteRange, keyAndMode:KeyAndMode=None):
     '''Generate a random Note within the given range'''
@@ -21,27 +21,27 @@ def random_note(range:NoteRange, keyAndMode:KeyAndMode=None):
     return Note(chosen, keyAndMode)
 
 def fc_randnote(range:NoteRange, clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
-    '''Generate musicXml for a random quarter note in the given range, clef, and mode'''
+    '''Generate musicXml and MIDI for a random quarter note in the given range, clef, and mode'''
     note = random_note(range, keyAndMode)
     tick = Tick(Duration(1), {note})
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
+    return Score((seq,), keyAndMode=keyAndMode).toOutputs()
 
-def fc_notes(notes:set[Note], clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
-    '''Generate Score for the given sequence of notes, as quarter notes, in the given range, clef, and mode'''
+def fc_notes(notes:list[Note], clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
+    '''Generate musicXml and MIDI for the given sequence of notes, as quarter notes, in the given range, clef, and mode'''
     tick = Tick(Duration(1), notes)
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
+    return Score((seq,), keyAndMode=keyAndMode).toOutputs()
 
 def fc_interval(n1:Note, interval:int, clef:Clef=None, keyAndMode:KeyAndMode=None) -> typing.Tuple[str, str]:
-    '''Create musicXml for the given interval vertically, given note, interval#, clef, and mode'''
+    '''Create musicXml and MIDI for the given interval vertically, given note, interval#, clef, and mode'''
     n2 = Note(n1.note.pitch.transpose(interval))
     tick = Tick(Duration(1), {n1, n2})
     seq = Sequence(clef, [tick])
-    return Score({seq}, keyAndMode=keyAndMode).toOutputs()
+    return Score((seq,), keyAndMode=keyAndMode).toOutputs()
 
 def fc_chord(n1:Note, type:ChordType, voicing:Voicing, key: Key) -> typing.Tuple[str, str]:
-    '''Create musicXml for the given chord, given root, type, voicing, and key signature'''
+    '''Create musicXml and MIDI for the given chord, given root, type, voicing, and key signature'''
     ch = Chord(type, voicing)
     parts = chord(n1, key, ch.parts)
     # parts is a list of parts, where a part is a list of notes.
@@ -59,10 +59,6 @@ def fc_chord(n1:Note, type:ChordType, voicing:Voicing, key: Key) -> typing.Tuple
         seqs.append(seq)
     return Score(seqs, keyAndMode=KeyAndMode(key, Mode.major)).toOutputs()
 
-def fc_write_and_display(scoreXml:str, title:str, html_filename:str, xml_filename:str, description:str=""):
-    with open(xml_filename, "w") as f:
-        f.write(scoreXml)
-    web.display_musicxml(title, html_filename, xml_filename, description)
 
 def select_key(key:set[Key]):
     '''Select a random key from the given set'''
@@ -72,7 +68,7 @@ def select_mode(mode:set[Mode]):
     '''Select a random mode from the given set'''
     return random.choice(list(mode))
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     import web
 
     if False:
@@ -83,11 +79,11 @@ if __name__ == "__main__":
 
         # Note: in the following, the notes are above bass clef to show that bass clef is forced
         (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("C#4"), Note("G4")), Clef.Bass)
-        fc_write_and_display(scoreXml, "fcgen-note-bass", "output/fcgen-note-bass.html", "output/fcgen-note-bass.xml")
+        web.write_and_display_musicxml(scoreXml, "fcgen-note-bass", "output/fcgen-note-bass.html", "output/fcgen-note-bass.xml")
 
         # Note that this is not the note printed above
         (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("C4"), Note("G4")))
-        fc_write_and_display(scoreXml, "fcgen-note", "output/fcgen-note.html", "output/fcgen-note.xml")
+        web.write_and_display_musicxml(scoreXml, "fcgen-note", "output/fcgen-note.html", "output/fcgen-note.xml")
 
     if False:
         # select random key and mode
@@ -97,7 +93,7 @@ if __name__ == "__main__":
         kam = KeyAndMode(select_key(keys), select_mode(modes))
         print(kam)
         (scoreXml, scoreMidi) = fc_randnote(NoteRange(Note("A4"), Note("G#5")), keyAndMode=kam)
-        fc_write_and_display(scoreXml, "fcgen-key", "output/fcgen-key.html", "output/fcgen-key.xml", description=str(kam))
+        web.write_and_display_musicxml(scoreXml, "fcgen-key", "output/fcgen-key.html", "output/fcgen-key.xml", description=str(kam))
     
     if True:
         # show a chord
@@ -106,4 +102,4 @@ if __name__ == "__main__":
         key = Key.C
         voicing = Voicing.blues
         (scoreXml, scoreMidi) = fc_chord(note, type=ct, voicing=voicing, key=key)
-        fc_write_and_display(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description=f"{voicing} {note} {ct} in {key}")
+        web.write_and_display_musicxml(scoreXml, "fcgen-chord", "output/fcgen-chord.html", "output/fcgen-chord.xml", description=f"{voicing} {note} {ct} in {key}")

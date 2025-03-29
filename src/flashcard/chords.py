@@ -68,11 +68,6 @@ def standard_voicing(type=ChordType):
 
 def blues_voicing(type=ChordType):
     match type:
-        case ChordType.maj: return (('-P8',), ('P1', 'M3', 'P5'))
-        case ChordType.min: return (('-P8',), ('P1', 'm3', 'P5'))
-        case ChordType.dim: return (('-P8',), ('P1', 'm3', 'd5'))
-        case ChordType.aug: return (('-P8',), ('P1', 'M3', 'A5'))
-
         case ChordType.maj7: return (('-P8',), (('M7', '-P8'), 'M3', 'P5'))
         case ChordType.min7: return (('-P8',), (('m7', '-P8'), 'm3', 'P5'))
         case ChordType.dom7: return (('-P8',), (('m7', '-P8'), 'M3', 'P5'))

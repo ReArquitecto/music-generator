@@ -105,7 +105,7 @@ def gen_intervals():
 
 def gen_chords():
     mkdirs("chords")
-    octave = '4'
+    dropkeys = ('F', 'F#', 'G', 'G#', 'A', 'A#', 'B')
     for keysig in circle:
         print(f"generating chords in {keysig}")
         key = Key(keysig)
@@ -115,6 +115,9 @@ def gen_chords():
                 dir = f"chords/keysig-{keysig}/{voicing.name}/{ctype.name}"
                 htmldir, xmldir = mkdirs(dir)
                 for k in root_notes:
+                    octave = '4'  # default octave
+                    if k in dropkeys:
+                        octave = '3'  # for "drop keys" use a lower octave
                     notename = k + octave
                     note = Note(notename)
                     html_fname = f"{htmldir}/{k}{ctype.name}.html"
@@ -134,11 +137,11 @@ if __name__ == "__main__":
 
     # Generate a suite of flashcards
 
-    # deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
+    deleteDirs = False # TEMP: don't delete all files first (don't check in uncommented)
     mkdirs("") # clear the decks (empties xml and html dirs if they exist)
 
-    gen_singles()
-    gen_intervals()
+    # gen_singles()
+    # gen_intervals()
     gen_chords()
 
     print(f"{web.file_count} flashcards generated")

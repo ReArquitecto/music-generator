@@ -76,6 +76,11 @@ To run UTs:
 pytest
 ```
 
+To check test coverage:
+```bash
+pytest --cov=flashcard src/flashcard
+```
+
 # Plans/Hopes
 
 - [x] refactor for better use by PM (e.g. fcset_gen shouldn't display the output)

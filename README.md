@@ -71,6 +71,11 @@ To handle that case, just run the default python http server:
 To generate a complet set of flashcards, run fcset_gen.py.  View them in your browser at
 [http://localost:8000/output/html](http://localost:8000/output/html)
 
+To run UTs:
+```bash
+pytest
+```
+
 # Plans/Hopes
 
 - [x] refactor for better use by PM (e.g. fcset_gen shouldn't display the output)

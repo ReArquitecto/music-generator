@@ -25,6 +25,7 @@ class ChordType(Enum):
     dom9 = "9"
     dom7b9 = "7b9"
     dom7s9 = "7#9"
+    dom9s11 = "9#11" # from Keb Mo "Dangerous Mood"
 
     # 11ths
     eleventh = "11" # omit 3rd
@@ -53,6 +54,7 @@ def standard_voicing(type=ChordType):
         case ChordType.dom9: return (('P1', 'M3', 'P5', 'm7', 'M9'),)
         case ChordType.dom7b9: return (('P1', 'M3', 'P5', 'm7', 'm9'),)
         case ChordType.dom7s9: return (('P1', 'M3', 'P5', 'm7', 'a9'),)
+        case ChordType.dom9s11: return (('P1', 'M3', 'P5', 'm7', 'M9', 'a11'),)
         case ChordType.eleventh: return (('P1', 'P5', 'm7', 'M9', 'P11'),)
         case ChordType.dom11: return (('P1', 'M3', 'P5', 'm7', 'M9', 'P11'),)
         case ChordType.min11: return (('P1', 'm3', 'P5', 'm7', 'M9', 'P11'),)
@@ -80,6 +82,7 @@ def blues_voicing(type=ChordType):
         case ChordType.dom7b9: return (('-P8',), ('M3', 'm7', 'm9'))
         case ChordType.dom7s9: return (('-P8',), ('M3', 'm7', 'a9'))
 
+        case ChordType.dom9s11: return (('-P8',), ('M3', 'm7', 'M9', 'A11'))
         case ChordType.eleventh: return (('-P8',), ('P5', 'm7', 'M9', 'P11'))
         case ChordType.dom11: return None
         case ChordType.min11: return (('-P8',), ('P5', 'm7', 'M9', 'm10', 'P11'))

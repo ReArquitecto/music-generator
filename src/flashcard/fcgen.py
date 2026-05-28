@@ -98,7 +98,7 @@ if __name__ == "__main__": # pragma: no cover
     if True:
         # show a chord
         note = Note("C4")
-        ct = ChordType.dom7
+        ct = ChordType.dom9s11
         key = Key.C
         voicing = Voicing.blues
         (scoreXml, scoreMidi) = fc_chord(note, type=ct, voicing=voicing, key=key)

@@ -5,14 +5,23 @@
 __pycache__/
 .venv
 .env
+.coverage
+.coveragerc
 
 # personal preferences
 junk*
+*.swp
 
 # VS Code
 *.code-workspace
+.vscode/
 
 # Directories to ignore
 SeleniumProfile/
 files/
 output/
+src/music_generator_jlearman.egg-info
+
+# misc
+example-note.xml
+favicon.ico

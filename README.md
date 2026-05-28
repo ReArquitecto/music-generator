@@ -17,10 +17,15 @@ To setup your virtual Python environment, please
 - Make sure you have Python 3 installed
 - Clone the repository
 - Navigate to the project directory in the terminal
-- In the terminal:
+- In the terminal (Windows):
     ```bash
     python -m venv .venv
     .venv\Scripts\activate
+    ```
+- In the terminal (Linux):
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate
     ```
 
 ## Add Virtual Environment to VS Code
@@ -54,9 +59,12 @@ pip install -r requirements.txt
 pip freeze > requirements.txt
 ```
 
-# TEMPORARY development notes
+# Development notes
 
-Pytest UT is planned but not yet added.  To test any given file, run it and it's main will exercise the primary features provided by the file.
+See below for Pytest UT.
+
+In addition, some source files have "__main__" sections, so you can run them to exercise the primary features provided by the file.
+Edit as needed to quickly check newly added code.
 
 For convenience, some generated MusicXML files are displayed in your browswer, but first you must start a server in the repo directory:
 ```bash
@@ -70,6 +78,8 @@ To handle that case, just run the default python http server:
 
 To generate a complet set of flashcards, run fcset_gen.py.  View them in your browser at
 [http://localost:8000/output/html](http://localhost:8000/output/html)
+
+## Pytest UT
 
 To run UTs:
 ```bash

@@ -6,9 +6,15 @@
 import shutil
 import os
 
-from flashcard.score import *
-from flashcard.chords import *
-from flashcard.fcgen import *
+try:
+    from score import *
+    from chords import *
+    from fcgen import *
+except:
+    from flashcard.score import *
+    from flashcard.chords import *
+    from flashcard.fcgen import *
+
 
 deleteDirs = True
 

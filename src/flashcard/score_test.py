@@ -3,8 +3,12 @@ import typing
 
 import music21
 
-from flashcard.score import *
-from flashcard import chords
+try:
+    from score import *
+    import chords
+except:
+    from flashcard.score import *
+    from flashcard import chords
 
 def test_KeyAndMode():
     kam = KeyAndMode(Key('C'), mode=Mode.major)

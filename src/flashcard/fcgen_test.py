@@ -4,9 +4,15 @@ import typing
 
 import music21
 
-from flashcard.fcgen import *
-from flashcard.score import *
-from flashcard import chords
+try:
+    from fcgen import *
+    from score import *
+    import chords
+except:
+    from flashcard.fcgen import *
+    from flashcard.score import *
+    from flashcard import chords
+
 
 def test_noterange():
     nr = NoteRange(Note('C4'), Note('C5'))

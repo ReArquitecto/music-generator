@@ -1,6 +1,9 @@
 import pytest
 
-from flashcard import chords
+try:
+    import chords
+except:
+    from flashcard import chords
 
 def test_chords_all():
     # exercise all voicings for all chord types

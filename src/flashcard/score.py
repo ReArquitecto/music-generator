@@ -7,6 +7,8 @@ import music21
 import music21.midi.translate
 from music21.duration import Duration
 
+import re
+
 class Clef(Enum):
     '''Clef types'''
     Treble = 1
@@ -101,6 +103,12 @@ class Note:
     def __hash__(self):
         return hash(self.name)
 
+def sanitize(xml:str) -> str:
+    '''delete anything in the XML that isn't necessary and isn't stable'''
+    xml = re.sub(r'\s*<encoding-date>.*?</encoding-date>', '', xml) # changes daily
+    xml = re.sub(r'<software>music21.*?</software>', '<software>music21</software>', xml)  # drop version
+    return xml
+
 def transpose(pitch:music21.pitch.Pitch, change:str):
     # change is either a Music21 degree (e.g., 'M3', 'm3', 'P5') or a tuple of degrees to apply in order
     degrees = (change,)
@@ -174,8 +182,15 @@ class Score:
     def score(self):
         '''Render the system to a score'''
         score = music21.stream.Score()
+        part_num = 1
         for sequence in self.sequences:
             part = music21.stream.Part()
+            inst = music21.instrument.Instrument()  # or instrument.Piano() etc.
+            part_id = "part%d" % part_num # might be nice to use "bass" / "treble"
+            inst.partId = part_id
+            part.insert(0, inst)
+            part.id = part_id # probably not needed; keep ids in sync for music21-side lookups
+
             # FIXME: key signature doesn't appear
             if self.keyAndMode is not None:
                 key_sig = music21.key.KeySignature(self.keyAndMode.music21_key.sharps)
@@ -189,19 +204,24 @@ class Score:
                 chord = music21.chord.Chord([note.note for note in tick.notes])
                 part.append(chord)
             score.append(part)
+            part_num += 1
         # TODO: put treble part first, so treble clef is on top in rendering
         return score
 
     def write(self, filename: str):
         '''Write the score to a file'''
+
+        # NOTE: don't use this to generate files that will be checked in, because they'll change every time.
+        # instead, use toXml() below.
         self.score().write('musicxml', fp=filename)
         print("Wrote '" + filename + "'")
 
     def toXml(self) -> str:
-        # generate XML text rather than writing to file (not working)
+        # generate XML text rather than writing to file
         m21_score = self.score()
-        return music21.musicxml.m21ToXml.GeneralObjectExporter(m21_score).parse().decode('utf-8')
-    
+        xml = music21.musicxml.m21ToXml.GeneralObjectExporter(m21_score).parse().decode('utf-8')
+        return sanitize(xml)
+
     def toMidi(self) -> bytes:
         m21_score = self.score()
         mf = music21.midi.translate.streamToMidiFile(m21_score)

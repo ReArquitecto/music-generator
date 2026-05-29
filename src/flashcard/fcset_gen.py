@@ -35,6 +35,7 @@ def mkdirs(dir:str):
 
 def fcset_write(scoreXml:str, title:str, html_filename:str, xml_filename:str, description=None):
     # ignore scores with double-sharp or flat-flat accidentals
+    # FIXME: this kills diminished chords and alt chords, some of which have double flats.
     # TODO: use RE as it's faster
     if "<accidental>double-sharp</accidental>" in scoreXml:
         return

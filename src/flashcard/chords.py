@@ -5,6 +5,17 @@ from enum import Enum
 # see https://en.wikipedia.org/wiki/Chord_(music) -- not all are here
 # The goal isn't to produce all possible chords, but to cover the main ones.
 
+# We currently, as a hack, omit all outputs with double-sharps and double-flats,
+# to keep the flashcards simple.  However, that causes some interesting chords
+# to be omitted, like Cdim7 in the key of C.  This quick fix uses incorrect
+# but enhormonic notes to avoid this.  Hopefully!
+# A better fix is to have complexity levels, where we omit double accidentals
+# for lower complexity and include them for higher complexity, but that'd
+# take more consideration.  See https://www.musictheory.net/exercises/chord
+# and hit the gear in the upper right and "Difficulty" setting.
+double_accidental_quickfix = True
+
+
 class ChordType(Enum):
     # triads
     maj = "maj"
@@ -50,7 +61,11 @@ def standard_voicing(type=ChordType):
         case ChordType.dom7: return (('P1', 'M3', 'P5', 'm7'),)
         case ChordType.hdim: return (('P1', 'm3', 'd5', 'm7'),)
         case ChordType.dom7b5: return (('P1', 'M3', 'd5', 'm7'),)
-        case ChordType.dim7: return (('P1', 'm3', 'd5', 'd7'),)
+        case ChordType.dim7:
+            if double_accidental_quickfix:
+                return (('P1', 'm3', 'd5', 'M6'),)
+            else:
+                return (('P1', 'm3', 'd5', 'd7'),)
         case ChordType.maj9: return (('P1', 'M3', 'P5', 'M7', 'M9'),)
         case ChordType.min9: return (('P1', 'm3', 'P5', 'm7', 'M9'),)
         case ChordType.dom9: return (('P1', 'M3', 'P5', 'm7', 'M9'),)
@@ -77,7 +92,11 @@ def blues_voicing(type=ChordType):
         case ChordType.dom7: return (('-P8',), (('m7', '-P8'), 'M3', 'P5'))
         case ChordType.hdim: return None
         case ChordType.dom7b5: return (('-P8',), (('m7', '-P8'), 'M3', 'd5'))
-        case ChordType.dim7: return (('-P8',), (('d7', '-P8'), 'm3', 'd5'))
+        case ChordType.dim7:
+            if double_accidental_quickfix:
+                return (('-P8',), (('M6', '-P8'), 'm3', 'd5'))
+            else:
+                return (('-P8',), (('d7', '-P8'), 'm3', 'd5'))
 
         case ChordType.maj9: return (('-P8',), ('M3', 'M7', 'M9'))
         case ChordType.min9: return (('-P8',), ('m3', 'm7', 'M9'))
@@ -91,8 +110,8 @@ def blues_voicing(type=ChordType):
         case ChordType.min11: return (('-P8',), ('P5', 'm7', 'M9', 'm10', 'P11'))
         case ChordType.maj11: return None
 
-        case ChordType.domb13: return (('-P8',), (('m7', ), 'M3', 'm6'))
         case ChordType.dom13: return (('-P8',), (('m7', '-P8'), 'M3', 'M6'))
+        case ChordType.domb13: return (('-P8',), (('m7', ), 'M3', 'm6'))
     return None
 
 def blues_tight_voicing(type=ChordType):

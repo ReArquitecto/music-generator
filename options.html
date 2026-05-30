@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>fcset-chord - Music Generator</title>
+    <link rel="stylesheet" type="text/css" href="/src/styles.css">
+</head>
+<body>
+    <h1>fcset-chord</h1>
+    <h2>Cdim7 standard voicing in C</h2>
+    <div id="osmdContainer"></div>
+
+    <!-- Load OSMD and Initialize -->
+    <script src="https://cdn.jsdelivr.net/npm/opensheetmusicdisplay@1.4.1/build/opensheetmusicdisplay.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay("osmdContainer");
+            osmd.rules.RenderTimeSignatures = false;
+            osmd.setOptions({
+                backend: "svg",
+                drawTitle: false,
+                drawSubTitle: false,
+                drawComposer: false,
+                darkMode: true,
+                drawPartNames: false
+            });
+            osmd.load("/output/xml/chords/keysig-C/standard/dim7/Cdim7.xml").then(function() {
+                osmd.render();
+            });
+        });
+    </script>
+</body>
+</html>
